@@ -40,8 +40,13 @@ dist-ssr
 coverage
 .nyc_output
 
-# Build
-build
+# User data (SQLite + per-user workspaces)
+data/
+
+# Legacy global workspace (deprecated)
+workspace/.architect/
+workspace/
+
 .next
 .cache
 .parcel-cache

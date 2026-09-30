@@ -9,16 +9,16 @@
   --color-editor: #000000;
   --color-preview: #2e1524;
   
-  --color-neon: #00ff41;
-  --color-neon-dim: #00ff4140;
-  --color-neon-bg: #1d331e;
+  --color-neon: #00ff66;
+  --color-neon-dim: #00ff6640;
+  --color-neon-bg: #0d2818;
   
   --color-dimmed: #76637b;
   --color-inactive: #4d4452;
   --color-main: #e0e0e0;
   --color-heading: #ffffff;
 
-  --color-accent: #00ff41;
+  --color-accent: #00ff66;
   --color-on-accent: #000000;
   
   --color-input-bg: #1a141a;
@@ -28,64 +28,64 @@
   --font-sans: "Space Grotesk", sans-serif;
 }
 
-/* ========= NEON THEME (default) ========= */
-[data-theme="neon"] {
-  --color-topbar: #000000;
+/* ========= CYBER GREEN (default) — aligned with landing cyber-green ========= */
+[data-theme="cyber-green"] {
+  --color-topbar: #0a0208;
   --color-activity: #120a12;
-  --color-sidebar: #2e1524;
+  --color-sidebar: #1a0b16;
   --color-editor: #000000;
-  --color-preview: #2e1524;
-  --color-neon: #00ff41;
-  --color-neon-dim: #00ff4140;
-  --color-neon-bg: #1d331e;
-  --color-dimmed: #76637b;
+  --color-preview: #1a0b16;
+  --color-neon: #00ff66;
+  --color-neon-dim: #00ff6640;
+  --color-neon-bg: #0d2818;
+  --color-dimmed: #6b5a6b;
   --color-inactive: #4d4452;
   --color-main: #e0e0e0;
   --color-heading: #ffffff;
-  --color-accent: #00ff41;
+  --color-accent: #00ff66;
   --color-on-accent: #000000;
-  --color-input-bg: #1a141a;
-  --color-surface-dim: #1a1a1a;
+  --color-input-bg: #0a0208;
+  --color-surface-dim: #2a1525;
 }
 
-/* ========= OBSIDIAN THEME (purple) ========= */
-[data-theme="obsidian"] {
-  --color-topbar: #0d0b14;
-  --color-activity: #13101f;
-  --color-sidebar: #1c1730;
-  --color-editor: #0d0b14;
-  --color-preview: #1c1730;
-  --color-neon: #c084fc;
-  --color-neon-dim: #c084fc40;
-  --color-neon-bg: #2e1f4a;
-  --color-dimmed: #8b7aa8;
-  --color-inactive: #4c3f6e;
-  --color-main: #e2ddee;
-  --color-heading: #ffffff;
-  --color-accent: #c084fc;
-  --color-on-accent: #0d0b14;
-  --color-input-bg: #1a1626;
-  --color-surface-dim: #1e1b2e;
-}
-
-/* ========= WHITE THEME (paper) ========= */
-[data-theme="white"] {
-  --color-topbar: #f5f5f0;
-  --color-activity: #ebebea;
-  --color-sidebar: #f0eeea;
-  --color-editor: #fafaf8;
-  --color-preview: #f0eeea;
-  --color-neon: #1a6ef5;
-  --color-neon-dim: #1a6ef540;
-  --color-neon-bg: #ddeaff;
-  --color-dimmed: #6b6b72;
-  --color-inactive: #a0a0aa;
-  --color-main: #1a1a22;
-  --color-heading: #000000;
-  --color-accent: #1a6ef5;
+/* ========= LIGHT BLUE — aligned with landing light-blue ========= */
+[data-theme="light-blue"] {
+  --color-topbar: #ffffff;
+  --color-activity: #f8fafc;
+  --color-sidebar: #f1f5f9;
+  --color-editor: #ffffff;
+  --color-preview: #f8fafc;
+  --color-neon: #0055ff;
+  --color-neon-dim: #0055ff40;
+  --color-neon-bg: #e8f0ff;
+  --color-dimmed: #64748b;
+  --color-inactive: #94a3b8;
+  --color-main: #1e293b;
+  --color-heading: #0f172a;
+  --color-accent: #0055ff;
   --color-on-accent: #ffffff;
   --color-input-bg: #ffffff;
-  --color-surface-dim: #e4e4e7;
+  --color-surface-dim: #e2e8f0;
+}
+
+/* ========= OBSIDIAN SILVER — aligned with landing obsidian-silver ========= */
+[data-theme="obsidian-silver"] {
+  --color-topbar: #000000;
+  --color-activity: #0a0a0a;
+  --color-sidebar: #070707;
+  --color-editor: #000000;
+  --color-preview: #121212;
+  --color-neon: #ffffff;
+  --color-neon-dim: #ffffff30;
+  --color-neon-bg: #1a1a1a;
+  --color-dimmed: #71717a;
+  --color-inactive: #52525b;
+  --color-main: #d4d4d8;
+  --color-heading: #ffffff;
+  --color-accent: #ffffff;
+  --color-on-accent: #000000;
+  --color-input-bg: #0a0a0a;
+  --color-surface-dim: #27272a;
 }
 
 @layer base {
@@ -93,9 +93,19 @@
     background-color: var(--color-editor);
     color: var(--color-main);
     font-family: var(--font-sans);
-    overflow: hidden;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
+  }
+
+  /* Editor full-viewport lock — toggled from EditorApp */
+  body.app-locked,
+  body.app-locked #root {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  html:has(body.app-locked) {
+    height: 100%;
   }
 
   /* Custom Scrollbar */
@@ -231,4 +241,63 @@
 input[aria-label="Terminal input"]::placeholder {
   color: var(--color-inactive);
   font-style: italic;
+}
+
+/* ========= PRINT / EXPORT PDF ========= */
+@media print {
+  body {
+    overflow: visible;
+    height: auto;
+    background: #ffffff;
+    color: #111111;
+  }
+
+  /* Hide everything except the rendered preview content */
+  body * {
+    visibility: hidden;
+  }
+
+  .preview-content,
+  .preview-content * {
+    visibility: visible;
+  }
+
+  .preview-content {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0 1rem;
+    color: #111111 !important;
+  }
+
+  /* Hide the floating action toolbar inside the preview */
+  .preview-content ~ * {
+    display: none !important;
+  }
+
+  .code-block button,
+  .code-block .flex {
+    display: none !important;
+  }
+}
+
+@keyframes landing-ticker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.landing-ticker-track {
+  animation: landing-ticker 45s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing-ticker-track {
+    animation: none;
+  }
 }

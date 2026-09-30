@@ -1,48 +1,25 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useTranslation } from "react-i18next";
 import { User, Settings, Puzzle, ListTodo, Palette, Check } from "lucide-react";
-import { useTheme, type Theme } from "../context/ThemeContext";
+import { useTheme } from "../context/ThemeContext";
+import { editorThemeOptions } from "../lib/editor-themes";
 
 interface SettingsMenuProps {
   onClose: () => void;
   buttonRef: React.RefObject<HTMLButtonElement | null>;
 }
 
-const menuItems = [
-  { icon: User, label: "Profile" },
-  { icon: Settings, label: "Settings" },
-  { icon: Puzzle, label: "Extensions" },
-  { icon: ListTodo, label: "Tasks" },
-];
-
-const themes: {
-  id: Theme;
-  label: string;
-  preview: string[];
-  accent: string;
-}[] = [
-  {
-    id: "neon",
-    label: "Neon",
-    preview: ["#000000", "#2e1524", "#00ff41"],
-    accent: "#00ff41",
-  },
-  {
-    id: "obsidian",
-    label: "Obsidian",
-    preview: ["#0d0b14", "#1c1730", "#c084fc"],
-    accent: "#c084fc",
-  },
-  {
-    id: "white",
-    label: "White",
-    preview: ["#fafaf8", "#f0eeea", "#1a6ef5"],
-    accent: "#1a6ef5",
-  },
+const menuItemKeys = [
+  { icon: User, key: "profile" as const },
+  { icon: Settings, key: "settings" as const },
+  { icon: Puzzle, key: "extensions" as const },
+  { icon: ListTodo, key: "tasks" as const },
 ];
 
 export default function SettingsMenu({ onClose, buttonRef }: SettingsMenuProps) {
   const { theme, setTheme } = useTheme();
+  const { t } = useTranslation("editor");
   const menuRef = useRef<HTMLDivElement>(null);
   const [coords, setCoords] = useState<{ left: number; bottom: number } | null>(null);
 
@@ -98,22 +75,22 @@ export default function SettingsMenu({ onClose, buttonRef }: SettingsMenuProps) 
       <div className="px-4 py-3 border-b border-inactive flex items-center gap-2">
         <Settings size={14} className="text-neon" />
         <span className="font-mono text-xs tracking-widest text-dimmed uppercase">
-          Settings
+          {t("settings.title")}
         </span>
       </div>
 
       {/* Menu items */}
       <ul className="py-1">
-        {menuItems.map(({ icon: Icon, label }) => (
+        {menuItemKeys.map(({ icon: Icon, key }) => (
           <li
-            key={label}
+            key={key}
             className="flex items-center gap-3 px-4 py-2.5 cursor-pointer
                        text-sm text-main font-sans
                        hover:bg-neon-bg hover:text-neon
                        transition-colors duration-150"
           >
             <Icon size={15} className="shrink-0 text-dimmed" />
-            {label}
+            {t(`settings.${key}`)}
           </li>
         ))}
       </ul>
@@ -126,44 +103,44 @@ export default function SettingsMenu({ onClose, buttonRef }: SettingsMenuProps) 
         <div className="flex items-center gap-2 mb-3">
           <Palette size={14} className="text-neon" />
           <span className="font-mono text-xs tracking-widest text-dimmed uppercase">
-            Theme
+            {t("settings.theme")}
           </span>
         </div>
 
         <div className="flex flex-col gap-2">
-          {themes.map((t) => {
-            const isActive = theme === t.id;
+          {editorThemeOptions.map((opt) => {
+            const isActive = theme === opt.id;
+            const label = t(`themes.${opt.id}`);
             return (
               <button
-                key={t.id}
-                onClick={() => setTheme(t.id)}
+                key={opt.id}
+                onClick={() => setTheme(opt.id)}
                 className="flex items-center gap-3 w-full rounded-md px-3 py-2 cursor-pointer
                            transition-all duration-150 select-none text-left
                            hover:bg-neon-bg"
                 style={{
-                  border: `1px solid ${isActive ? t.accent : "var(--color-inactive)"}`,
-                  boxShadow: isActive ? `0 0 8px ${t.accent}55` : "none",
+                  border: `1px solid ${isActive ? opt.accent : "var(--color-inactive)"}`,
+                  boxShadow: isActive ? `0 0 8px ${opt.accent}55` : "none",
                 }}
               >
-                {/* Mini preview strip */}
                 <div className="flex rounded-sm overflow-hidden shrink-0 w-12 h-7 shadow-inner">
-                  <div style={{ background: t.preview[0], flex: 1 }} />
-                  <div style={{ background: t.preview[1], flex: 1.2 }} />
-                  <div style={{ background: t.preview[2], flex: 0.5 }} />
+                  <div style={{ background: opt.preview[0], flex: 1 }} />
+                  <div style={{ background: opt.preview[1], flex: 1.2 }} />
+                  <div style={{ background: opt.preview[2], flex: 0.5 }} />
                 </div>
 
                 <span
                   className="flex-1 text-sm font-sans"
                   style={{
-                    color: isActive ? t.accent : "main",
+                    color: isActive ? opt.accent : "main",
                     fontWeight: isActive ? 600 : 400,
                   }}
                 >
-                  {t.label}
+                  {label}
                 </span>
 
                 {isActive && (
-                  <Check size={14} style={{ color: t.accent, flexShrink: 0 }} />
+                  <Check size={14} style={{ color: opt.accent, flexShrink: 0 }} />
                 )}
               </button>
             );

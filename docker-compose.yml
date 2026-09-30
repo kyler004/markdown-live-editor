@@ -1,0 +1,19 @@
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3001}:3001"
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      TRUST_PROXY: "true"
+      COOKIE_SECURE: "true"
+    volumes:
+      - architect-data:/app/data
+
+volumes:
+  architect-data:
+    driver: local
